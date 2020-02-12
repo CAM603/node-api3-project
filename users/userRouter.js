@@ -14,7 +14,7 @@ router.post('/', validateUser, (req, res) => {
     })
 });
 
-router.post('/:id/posts', validateUserId, validateUser, (req, res) => {
+router.post('/:id/posts', validateUserId, validatePost, (req, res) => {
   
 });
 
@@ -31,12 +31,18 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', validateUserId, (req, res) => {
-  // do your magic!
+  
   res.json(req.user)
 });
 
 router.get('/:id/posts', validateUserId, (req, res) => {
-  // do your magic!
+  Users.getUserPosts(req.user.id)
+    .then(posts => {
+      res.status(200).json(posts)
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Error retrieving posts' })
+    })
 });
 
 router.delete('/:id', validateUserId, (req, res) => {
@@ -50,7 +56,13 @@ router.delete('/:id', validateUserId, (req, res) => {
 });
 
 router.put('/:id', validateUserId, (req, res) => {
-  // do your magic!
+  Users.update(req.user.id, req.body)
+    .then(updated => {
+      res.status(200).json({updated})
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Error updating user'})
+    })
 });
 
 //custom middleware
@@ -76,14 +88,19 @@ function validateUserId(req, res, next) {
 function validateUser(req, res, next) {
   if(!req.body) {
     res.status(400).json({ message: "missing user data" })
-  } else if (!req.body.name) {
+  } else if(!req.body.name) {
     res.status(400).json({ message: "missing required name field" })
   }
   next()
 }
 
 function validatePost(req, res, next) {
-  // do your magic!
+  if(!req.body) {
+    res.status(400).json({ message: "missing post data" })
+  } else if(!req.body.text) {
+    res.status(400).json({ message: "missing required text field" })
+  }
+  next()
 }
 
 module.exports = router;

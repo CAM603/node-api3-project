@@ -14,6 +14,9 @@ server.get('/', (req, res) => {
   res.send(`<h2>Let's write some middleware!</h2>`);
 });
 
+server.get("*", (req, res) => {
+  res.status(404).end("Where are you trying to go??");
+});
 //custom middleware
 
 function logger(req, res, next) {
