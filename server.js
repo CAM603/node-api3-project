@@ -1,5 +1,7 @@
 const express = require('express');
 
+const cors = require("cors");
+
 const usersRouter = require('./users/userRouter');
 const postsRouter = require('./posts/postRouter');
 
@@ -7,6 +9,7 @@ const server = express();
 
 // built in middleware
 server.use(express.json());
+server.use(cors());
 
 // routes - endpoints
 server.use('/api/users', logger, usersRouter);
