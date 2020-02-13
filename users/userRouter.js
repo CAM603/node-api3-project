@@ -100,18 +100,21 @@ function validateUserId(req, res, next) {
 }
 
 function validateUser(req, res, next) {
-  if(!req.body) {
+  const body = req.body;
+
+  if(Object.entries(body).length === 0 && body.constructor === Object) {
     res.status(400).json({ message: "missing user data" })
-  } else if(!req.body.name) {
+  } else if(!body.name) {
     res.status(400).json({ message: "missing required name field" })
   }
   next()
 }
 
 function validatePost(req, res, next) {
-  if(!req.body) {
+  const body = req.body;
+  if(Object.entries(body).length === 0 && body.constructor === Object) {
     res.status(400).json({ message: "missing post data" })
-  } else if(!req.body.text) {
+  } else if(body.text) {
     res.status(400).json({ message: "missing required text field" })
   }
   next()
