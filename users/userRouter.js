@@ -59,7 +59,7 @@ router.get('/:id/posts', validateUserId, (req, res) => {
 router.delete('/:id', validateUserId, (req, res) => {
   Users.remove(req.user.id)
     .then(deleted => {
-      res.status(200).json(deleted)
+      res.status(200).json(req.user)
     })
     .catch(err => {
       res.status(500).json({ error: 'Error deleting user'})
