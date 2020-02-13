@@ -31,7 +31,17 @@ router.delete('/:id', validatePostId, (req, res) => {
 });
 
 router.put('/:id', validatePostId, (req, res) => {
-  // do your magic!
+
+  Posts.update(req.post.id, req.body)
+    .then(updated => {
+      Posts.getById(req.post.id)
+        .then(post => {
+          res.status(200).json(post)
+        })
+    })
+    .catch(err => {
+      res.status(500).json({ error: 'error updating post'})
+    })
 });
 
 // custom middleware
