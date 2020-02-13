@@ -22,7 +22,7 @@ server.get("*", (req, res) => {
 //custom middleware
 
 function logger(req, res, next) {
-  console.log(`${req.method} request to ${req.originalUrl} ${Date.now()}`)
+  console.log(`${req.method} request to ${req.originalUrl} at ${new Date()}`)
 
   next()
 }

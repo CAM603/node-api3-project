@@ -69,7 +69,10 @@ router.delete('/:id', validateUserId, (req, res) => {
 router.put('/:id', validateUserId, (req, res) => {
   Users.update(req.user.id, req.body)
     .then(updated => {
-      res.status(200).json(updated)
+      Users.getById(req.user.id)
+        .then(user => {
+          res.status(200).json(user)
+        })
     })
     .catch(err => {
       res.status(500).json({ message: 'Error updating user'})
